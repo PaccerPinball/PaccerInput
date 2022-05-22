@@ -22,10 +22,13 @@
 class PaccerInput {
     private:
         PaccerCommon* common;
+        char commandBuffer[20]{};
+        int commandIdx = 0;
     public:
         explicit PaccerInput(PaccerCommon* common);
         /** Called from the main arduino sketch every loop() */
         void tick();
+        void command(const String& command);
 };
 
 #endif
