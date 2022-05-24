@@ -41,4 +41,24 @@ void PaccerInput::tick() {
 void PaccerInput::command(const String& command) {
     Serial.print("Received command: ");
     Serial.println(command);
+
+    if (command.startsWith("input ")) {
+        unsigned char c = command.charAt(6);
+        unsigned int input = c - '0';
+        simulateInput(input);
+    }
+    else if (command.startsWith("broadcast")) {
+        for (int i = 0; i < 20; i++) {
+            serial("BROADCAST TEST " + String(i));
+        }
+    }
+}
+
+void PaccerInput::simulateInput(const unsigned int& input) {
+    serial("Simulating input: " + String(input));
+    common->input(input);
+}
+
+void PaccerInput::serial(const String &msg) {
+    Serial.println( "INPUT | " + msg);
 }

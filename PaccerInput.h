@@ -23,12 +23,14 @@ class PaccerInput {
     private:
         PaccerCommon* common;
         char commandBuffer[20]{};
-        int commandIdx = 0;
+        unsigned int commandIdx = 0;
+        static void serial(const String& msg);
     public:
         explicit PaccerInput(PaccerCommon* common);
         /** Called from the main arduino sketch every loop() */
         void tick();
         void command(const String& command);
+        void simulateInput(const unsigned int& input);
 };
 
 #endif
