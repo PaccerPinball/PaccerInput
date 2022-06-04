@@ -39,8 +39,7 @@ void PaccerInput::tick() {
 }
 
 void PaccerInput::command(const String& command) {
-    Serial.print("Received command: ");
-    Serial.println(command);
+    serial("Received command: " + command);
 
     if (command.startsWith("input ")) {
         unsigned char c = command.charAt(6);
