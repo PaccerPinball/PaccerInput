@@ -19,12 +19,17 @@
 #include <LiquidCrystal.h>
 #include <PaccerCommon.h>
 
+#define SENSOR_COOLDOWN 2000
+
 class PaccerInput {
     private:
+        unsigned int currentInput{};
+        unsigned long currentInputMillis{};
         PaccerCommon* common;
         char commandBuffer[20]{};
         unsigned int commandIdx = 0;
         static void serial(const String& msg);
+        boolean checkInput(const int& type) const;
     public:
         explicit PaccerInput(PaccerCommon* common);
         /** Called from the main arduino sketch every loop() */

@@ -18,6 +18,8 @@
 
 PaccerInput::PaccerInput(PaccerCommon *common) {
     this->common = common;
+    pinMode(INPUT_SPRING_START, INPUT_PULLUP);
+    pinMode(INPUT_PACMAN_INSIDE, INPUT_PULLUP);
 }
 
 void PaccerInput::tick() {
@@ -35,6 +37,16 @@ void PaccerInput::tick() {
             // Add byte to string
             commandBuffer[commandIdx++] = b; // NOLINT(cppcoreguidelines-narrowing-conversions)
         }
+    }
+    if (checkInput(INPUT_SPRING_START)) {
+        currentInputMillis = millis();
+        currentInput = INPUT_SPRING_START;
+        simulateInput(INPUT_SPRING_START);
+    }
+    else if (checkInput(INPUT_PACMAN_INSIDE)) {
+        currentInputMillis = millis();
+        currentInput = INPUT_PACMAN_INSIDE;
+        simulateInput(INPUT_PACMAN_INSIDE);
     }
 }
 
@@ -60,4 +72,8 @@ void PaccerInput::simulateInput(const unsigned int& input) {
 
 void PaccerInput::serial(const String &msg) {
     Serial.println( "INPUT | " + msg);
+}
+
+boolean PaccerInput::checkInput(const int &type) const {
+    return digitalRead(type) == LOW && (currentInput != type || millis() - currentInputMillis > SENSOR_COOLDOWN);
 }
