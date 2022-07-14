@@ -20,6 +20,9 @@ PaccerInput::PaccerInput(PaccerCommon *common) {
     this->common = common;
     pinMode(INPUT_SPRING_START, INPUT_PULLUP);
     pinMode(INPUT_PACMAN_INSIDE, INPUT_PULLUP);
+    pinMode(INPUT_HOLE_ONE, INPUT_PULLUP);
+    pinMode(INPUT_HOLE_TWO, INPUT_PULLUP);
+    pinMode(INPUT_SLOW_PROPELLOR, INPUT_PULLUP);
 }
 
 void PaccerInput::tick() {
@@ -47,6 +50,11 @@ void PaccerInput::tick() {
         currentInputMillis = millis();
         currentInput = INPUT_PACMAN_INSIDE;
         simulateInput(INPUT_PACMAN_INSIDE);
+    }
+    else if (checkInput(INPUT_HOLE_ONE)) {
+        currentInputMillis = millis();
+        currentInput = INPUT_HOLE_ONE;
+        simulateInput(INPUT_HOLE_ONE);
     }
 }
 
